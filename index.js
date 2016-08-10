@@ -149,7 +149,8 @@ module.exports = {
 
       // Add the story Pivotal Tracker story ID.
       if (answers.story) {
-        pt = `[${answers.workflow} ${answers.story}]`
+        const workflow = answers.workflow ? `${answers.workflow} ` : ''
+        pt = ` [${workflow}${answers.story}]`
         headTrimLength = maxLineWidth - pt.length
       }
 
