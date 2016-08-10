@@ -25,7 +25,11 @@
   },
   "devDependencies": {
     "commitizen": "^1.0.5",
+    "condition-circle": "^1.2.0",
     "semantic-release": "^4.3.5"
+  },
+  "release": {
+    "verifyConditions": "condition-circle"
   },
   "config": {
     "commitizen": {
