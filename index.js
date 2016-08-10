@@ -4,6 +4,7 @@ const findConfig = require('find-config')
 const wrap = require('word-wrap')
 const types = require('conventional-commit-types').types
 const padend = require('lodash.padend')
+const startsWith = require('lodash.startswith')
 
 function readConfigFile() {
   // Try to find config block in the nearest package.json
@@ -104,6 +105,13 @@ module.exports = {
         type: 'input',
         name: 'story',
         message: 'Pivotal Tracker Story ID:\n',
+        validate: function(input) {
+          if (input && !startsWith(input, '\#')) {
+            return 'Pivotal Tracker Story ID must start with \'#\'';
+          } else {
+            return true;
+          }
+        }
       }, {
         type: 'list',
         name: 'workflow',
@@ -141,7 +149,7 @@ module.exports = {
 
       // Add the story Pivotal Tracker story ID.
       if (answers.story) {
-        pt = `[${answers.workflow} #${answers.story}]`
+        pt = `[${answers.workflow} ${answers.story}]`
         headTrimLength = maxLineWidth - pt.length
       }
 
