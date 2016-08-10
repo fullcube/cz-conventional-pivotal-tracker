@@ -1,0 +1,35 @@
+{
+  "name": "cz-conventional-pivotal-tracker",
+  "version": "0.0.0-semantically-released.0",
+  "description": "A commitizen adapter with support for Pivotal Tracker.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'Tests need to be setup!'",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:fullcube/cz-conventional-pivotal-tracker.git"
+  },
+  "keywords": [
+    "commitizen",
+    "commitizen adapter",
+    "pivotal tracker"
+  ],
+  "author": "Tom Kirkpatrick @mrfelton",
+  "license": "MIT",
+  "dependencies": {
+    "conventional-commit-types": "^2.0.0",
+    "find-config": "^1.0.0",
+    "lodash.padend": "^4.6.0"
+  },
+  "devDependencies": {
+    "commitizen": "^1.0.5",
+    "semantic-release": "^4.3.5"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./index"
+    }
+  }
+}
