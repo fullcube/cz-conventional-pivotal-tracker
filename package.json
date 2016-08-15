@@ -21,6 +21,7 @@
   "dependencies": {
     "conventional-commit-types": "^2.0.0",
     "find-config": "^1.0.0",
+    "git-rev": "^0.2.1",
     "lodash.padend": "^4.6.0",
     "lodash.startswith": "^4.2.0"
   },
