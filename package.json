@@ -23,7 +23,8 @@
     "find-config": "^1.0.0",
     "git-rev": "^0.2.1",
     "lodash.padend": "^4.6.0",
-    "lodash.startswith": "^4.2.0"
+    "lodash.startswith": "^4.2.0",
+    "word-wrap": "^1.1.0"
   },
   "devDependencies": {
     "commitizen": "^2.8.5",
