@@ -6,6 +6,24 @@ const types = require('conventional-commit-types').types
 const padend = require('lodash.padend')
 const startsWith = require('lodash.startswith')
 const git = require('git-rev')
+const config = require('config')
+
+/**
+ * Get a list of scopes.
+ */
+function getScopeConfig() {
+  const services = config.has('services') ? config.get('services') : {}
+
+  // Get the services from the config
+  const servicesNames = Object.keys(services).map(service => ({name: service})) || []
+
+  // Get the values defined in package json
+  const configNames = readConfigFile() || []
+
+  return {
+    scopes: [].concat(servicesNames).concat(configNames)
+  }
+}
 
 function readConfigFile() {
   // Try to find config block in the nearest package.json
@@ -17,7 +35,7 @@ function readConfigFile() {
 
       console.info('>>> Using cz-customizable config specified in your package.json')
 
-      return config
+      return config.scopes
     }
   }
 }
@@ -26,7 +44,7 @@ function getTypes(config) {
   const choices = []
   Object.keys(types).forEach(type => {
     choices.push({
-      name: `${padend(type+':', 10)} ${types[type].description}`,
+      name: `${padend(type + ':', 10)} ${types[type].description}`,
       value: type,
     })
   })
@@ -60,12 +78,12 @@ module.exports = {
   //
   // By default, we'll de-indent your commit
   // template and will keep empty lines.
-  prompter: function(cz, commit) {
-    var config = readConfigFile()
+  prompter: function (cz, commit) {
+    var config = getScopeConfig()
     console.log(config)
     console.log('\nLine 1 will be cropped at 100 characters. All other lines will be wrapped after 100 characters.\n')
 
-    getPivotalTrackerId(function(storyId) {
+    getPivotalTrackerId(function (storyId) {
       // Let's ask some questions of the user
       // so that we can populate our commit
       // template.
@@ -85,17 +103,17 @@ module.exports = {
           message: 'Denote the scope of this change (devops, app, server, etc.):',
           choices: getScopes(config).concat([
             new cz.Separator(),
-            { name: 'empty', value: false },
-            { name: 'custom', value: 'custom' },
+            {name: 'empty', value: ''},
+            {name: 'custom', value: 'custom'},
           ]),
-          when: function(answers) {
+          when: function (answers) {
             return getScopes(config).length
           }
         }, {
           type: 'input',
           name: 'scope',
           message: 'Denote the SCOPE of this change:',
-          when: function(answers) {
+          when: function (answers) {
             return !getScopes(config).length || answers.scope === 'custom'
           }
         }, {
@@ -115,7 +133,7 @@ module.exports = {
           name: 'story',
           message: 'Pivotal Tracker Story ID:\n',
           default: storyId,
-          validate: function(input) {
+          validate: function (input) {
             if (input && !startsWith(input, '\#')) {
               return 'Pivotal Tracker Story ID must start with \'#\'';
             } else {
@@ -127,17 +145,17 @@ module.exports = {
           name: 'workflow',
           message: 'Workflow command (testing, closed, etc.) (optional):\n',
           choices: [
+            {name: 'none', value: null},
+            new cz.Separator(),
             {name: 'Finishes'},
             {name: 'Fixes'},
             {name: 'Delivers'},
-            new cz.Separator(),
-            { name: 'none', value: false },
           ],
-          when: function(answers) {
+          when: function (answers) {
             return answers.story
           }
         }
-      ]).then(function(answers) {
+      ]).then(function (answers) {
 
         var maxLineWidth = 100
         var headTrimLength = maxLineWidth
@@ -145,7 +163,7 @@ module.exports = {
         var wrapOptions = {
           trim: true,
           newline: '\n',
-          indent:'',
+          indent: '',
           width: maxLineWidth
         }
 
