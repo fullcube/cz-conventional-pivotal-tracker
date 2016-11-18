@@ -19,9 +19,11 @@
   "author": "Tom Kirkpatrick @mrfelton",
   "license": "MIT",
   "dependencies": {
+    "config": "^1.24.0",
     "conventional-commit-types": "^2.0.0",
     "find-config": "^1.0.0",
     "git-rev": "^0.2.1",
+    "js-yaml": "^3.7.0",
     "lodash.padend": "^4.6.0",
     "lodash.startswith": "^4.2.0",
     "word-wrap": "^1.1.0"
